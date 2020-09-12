@@ -14,9 +14,5 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.Chat = require('./chat')(sequelize, Sequelize);
-db.Room = require('./room')(sequelize, Sequelize);
-
-db.Room.hasMany(db.Chat);
-db.Chat.belongsTo(db.Room);
 
 module.exports = db;

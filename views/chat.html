@@ -1,51 +1,56 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+{% if not user %}
+<script>
+    let text = prompt("put your nickname");
+    while (!text) {
+        text = prompt("you have to set your nickname!");
+    }
+    axios.post('/nick', {
+        nick: text
+    }).then(() => {
+        console.log("succeed to set nick!");
+    }).catch((error) => {
+        console.error(error);
+    });
+</script>
+{% endif %}
 <h1>{{title}}</h1>
-<a href="/" id="exit-btn">방 나가기</a>
-<fieldset>
-    <legend>채팅 내용</legend>
+<h2>Chatting contents</h2>
+<fieldset style="background-color:black;">
     <div id="chat-list">
         {% for chat in chats %}
         {% if chat.user === user %}
         </style>
-        <div class="mine" style="color: {{chat.user}};">
+        <div class="mine" style="color: yellow;">
             <div>{{chat.user}}</div>
-            {% if chat.gif %}}
-            <img src="/gif/{{chat.gif}}">
-            {% else %}
             <div>{{chat.chat}}</div>
-            {% endif %}
         </div>
         {% elif chat.user === 'system' %}
-        <div class="system">
+        <div class="system" style="color: gray;">
             <div>{{chat.chat}}</div>
         </div>
         {% else %}
-        <div class="other" style="color: {{chat.user}};">
+        <div class="other" style="color:white;">
             <div>{{chat.user}}</div>
-            {% if chat.gif %}
-            <img src="/gif/{{chat.gif}}">
-            {% else %}
             <div>{{chat.chat}}</div>
-            {% endif %}
         </div>
         {% endif %}
         {% endfor %}
     </div>
 </fieldset>
 <form id="chat-form" enctype="multipart/form-data">
-    <label for="gif">GIF 올리기</label>
-    <input type="file" id="gif" name="gif" accept="image/gif">
     <input type="text" id="chat" name="chat">
-    <button>전송</button>
+    <button>Send</button>
 </form>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
 <script>
-    const chat_list = document.querySelector('#chat-list');
-    chat_list.scrollTop = chat_list.scrollHeight;
-    const socket = io.connect('http://localhost:80/chat', {
+    function fix_scroll() {
+        const chat_list = document.querySelector('#chat-list');
+        chat_list.scrollTop = chat_list.scrollHeight;
+    };
+    fix_scroll();
+    const socket = io.connect('http://localhost:80', {
         path: '/socket.io',
     });
     socket.on('join', function (data) {
@@ -55,6 +60,7 @@
         div.textContent = data.chat;
         div.appendChild(chat);
         document.querySelector('#chat-list').appendChild(div);
+        fix_scroll();
     });
     socket.on('exit', function (data) {
         const div = document.createElement('div');
@@ -63,6 +69,7 @@
         div.textContent = data.chat;
         div.appendChild(chat);
         document.querySelector('#chat-list').appendChild(div);
+        fix_scroll();
     });
     socket.on('chat', function (data) {
         const div = document.createElement('div');
@@ -74,24 +81,17 @@
         const name = document.createElement('div');
         name.textContent = data.user;
         div.appendChild(name);
-        if (data.chat) {
-            const chat = document.createElement('div');
-            chat.textContent = data.chat;
-            div.appendChild(chat);
-        } else {
-            const gif = document.createElement('img');
-            gif.src = '/gif/' + data.gif;
-            div.appendChild(gif);
-        }
+        const chat = document.createElement('div');
+        chat.textContent = data.chat;
+        div.appendChild(chat);
         div.style.color = data.user;
         document.querySelector('#chat-list').appendChild(div);
-        const chat_list = document.querySelector('#chat-list');
-        chat_list.scrollTop = chat_list.scrollHeight;
+        fix_scroll();
     });
     document.querySelector('#chat-form').addEventListener('submit', function (e) {
         e.preventDefault();
         if (e.target.chat.value) {
-            axios.post('/room/{{room.id}}/chat', {
+            axios.post('/chat', {
                 chat: this.chat.value,
             })
                 .then(() => {
@@ -101,18 +101,6 @@
                     console.error(err);
                 });
         }
-    });
-    document.querySelector('#gif').addEventListener('change', function (e) {
-        console.log(e.target.files);
-        const formData = new FormData();
-        formData.append('gif', e.target.files[0]);
-        axios.post('/room/{{ room.id }}/gif', formData)
-            .then(() => {
-                e.target.file = null;
-            })
-            .catch((err) => {
-                console.error(err);
-            });
     });
 </script>
 {% endblock %}

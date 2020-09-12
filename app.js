@@ -3,9 +3,9 @@ const path = require('path');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
-const ColorHash = require('color-hash');
 
 dotenv.config();
 const webSocket = require('./socket');
@@ -30,6 +30,7 @@ const sessionMiddleware = session({
         httponly: true,
         secure: false,
     },
+    store: new FileStore(),
 });
 
 app.use(morgan('dev'));
@@ -38,15 +39,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(sessionMiddleware);
-
-app.use((req, res, next) => {
-    if (!req.session.color) {
-        const colorHash = new ColorHash();
-        req.session.color = colorHash.hex(req.sessionID);
-    }
-    console.log("req.session: ", req.session);
-    next();
-});
 
 app.use('/', indexRouter);
 
