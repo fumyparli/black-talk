@@ -22,6 +22,7 @@
 #chat, #chat-form [type='submit'] {
   display: inline-block;
   height: 30px;
+  width: 411px;
   vertical-align: top;
   border:1px solid black;
   border-radius: 8px;
