@@ -1,0 +1,18 @@
+<head>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<script>
+    let text = prompt("put your nickname");
+    while (!text) {
+        text = prompt("you have to set your nickname!");
+    }
+    axios.post('/nick', {
+        nick: text
+    }).then(() => {
+        console.log("succeed to get nick!");
+        window.location.href = '/';
+    }).catch((error) => {
+        console.error(error);
+    });
+</script>

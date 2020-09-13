@@ -1,7 +1,7 @@
 * { box-sizing: border-box; }
-.mine { text-align: right; color: yellow; }
-.other { color: white; }
-.system { text-align: center; color: gray;}
+.mine { text-align: right; color: yellow; margin: 3px; }
+.other { color: white; margin: 3px; }
+.system { text-align: center; color: gray; margin: 3px; }
 .mine div:first-child, .other div:first-child { font-size: 12px; }
 .mine div:last-child, .other div:last-child {
   display: inline-block;
@@ -10,17 +10,24 @@
   padding: 2px 5px;
   max-width: 300px;
 }
+.send-button{
+  text-align:center;
+  font-size:22px;
+  background-color: yellow;
+  border: 1px solid black;
+  border-radius: 8px;
+}
 #chat-list { height: 500px; overflow: auto; padding: 5px; }
 #chat-form { text-align: right; }
-label[for='gif'], #chat, #chat-form [type='submit'] {
+#chat, #chat-form [type='submit'] {
   display: inline-block;
   height: 30px;
   vertical-align: top;
+  border:1px solid black;
+  border-radius: 8px;
 }
-label[for='gif'] { cursor: pointer; padding: 5px; }
-#gif { display: none; }
-table, table th, table td {
-  text-align: center;
-  border: 1px solid silver;
-  border-collapse: collapse;
+#chat-fieldset{
+  border:1px solid black;
+  border-radius: 8px;
+  margin:3px;
 }

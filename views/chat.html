@@ -1,38 +1,23 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-{% if not user %}
-<script>
-    let text = prompt("put your nickname");
-    while (!text) {
-        text = prompt("you have to set your nickname!");
-    }
-    axios.post('/nick', {
-        nick: text
-    }).then(() => {
-        console.log("succeed to set nick!");
-    }).catch((error) => {
-        console.error(error);
-    });
-</script>
-{% endif %}
 <h1>{{title}}</h1>
 <h2>Chatting contents</h2>
-<fieldset style="background-color:black;">
+<fieldset id=chat-fieldset style="background-color:black;">
     <div id="chat-list">
         {% for chat in chats %}
         {% if chat.user === user %}
         </style>
-        <div class="mine" style="color: yellow;">
+        <div class="mine">
             <div>{{chat.user}}</div>
             <div>{{chat.chat}}</div>
         </div>
         {% elif chat.user === 'system' %}
-        <div class="system" style="color: gray;">
+        <div class="system">
             <div>{{chat.chat}}</div>
         </div>
         {% else %}
-        <div class="other" style="color:white;">
+        <div class="other">
             <div>{{chat.user}}</div>
             <div>{{chat.chat}}</div>
         </div>
@@ -42,7 +27,7 @@
 </fieldset>
 <form id="chat-form" enctype="multipart/form-data">
     <input type="text" id="chat" name="chat">
-    <button>Send</button>
+    <button class="send-button">Send</button>
 </form>
 <script>
     function fix_scroll() {

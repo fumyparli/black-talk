@@ -3,7 +3,6 @@ const path = require('path');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const FileStore = require('session-file-store')(session);
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
 
@@ -30,7 +29,6 @@ const sessionMiddleware = session({
         httponly: true,
         secure: false,
     },
-    store: new FileStore(),
 });
 
 app.use(morgan('dev'));
