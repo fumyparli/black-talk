@@ -69,7 +69,6 @@
         const chat = document.createElement('div');
         chat.textContent = data.chat;
         div.appendChild(chat);
-        div.style.color = data.user;
         document.querySelector('#chat-list').appendChild(div);
         fix_scroll();
     });
