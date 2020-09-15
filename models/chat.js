@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
             user: {
                 type: DataTypes.STRING(20),
                 allowNull: false,
-                //unique: false,
+                // unique: false,
             },
             chat: {
                 type: DataTypes.STRING(100),
