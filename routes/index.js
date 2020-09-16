@@ -41,6 +41,7 @@ router.post('/nick', (req, res, next) => {
 
 router.post('/chat', async (req, res, next) => {
     try {
+        console.log("!!!!!!!!!!!!!:", req.body, typeof (req.body));
         const chat = await Chat.create({
             user: req.session.nick,
             chat: req.body.chat,
