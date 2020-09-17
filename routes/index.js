@@ -19,7 +19,6 @@ router.get('/', async (req, res, next) => {
                 user: req.session.nick
             });
         }
-        console.log("아니 어이가 존나없네???????");
     } catch (error) {
         console.error(error);
         next(error);
@@ -29,6 +28,8 @@ router.get('/', async (req, res, next) => {
 router.post('/nick', (req, res, next) => {
     try {
         req.session.nick = req.body.nick;
+        console.log("req.session!!!!: ", req.session);
+        console.log("req.body.nick", req.body.nick);
         console.log("/nick router 작동 완료!!!!");
         res.send('ok');
         // 여기서 res.redirect('/'); 하면
@@ -41,7 +42,6 @@ router.post('/nick', (req, res, next) => {
 
 router.post('/chat', async (req, res, next) => {
     try {
-        console.log("!!!!!!!!!!!!!:", req.body, typeof (req.body));
         const chat = await Chat.create({
             user: req.session.nick,
             chat: req.body.chat,

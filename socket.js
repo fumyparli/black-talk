@@ -12,6 +12,8 @@ module.exports = (server, app, sessionMiddleware) => {
     io.on('connection', (socket) => {
         console.log('black_chat 접속');
         const req = socket.request;
+        console.log("req.session: ", req.session);
+        console.log("2222req.session.nick: ", req.session.nick);
         io.emit('join', {
             user: 'system',
             chat: `${req.session.nick}님이 입장하셨습니다.`,

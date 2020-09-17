@@ -35,10 +35,12 @@
         chat_list.scrollTop = chat_list.scrollHeight;
     };
     fix_scroll();
-    const my_ip = "http://192.168.200.167:80";
+    const my_ip = "http://172.30.1.29";
+    // 여기 localhost 넣으면 작동안함 꼭 자기 외부 IP적어야 함
     const socket = io.connect(my_ip, {
         path: '/socket.io',
     });
+    console.log("io:", io);
     socket.on('join', function (data) {
         const div = document.createElement('div');
         div.classList.add('system');
