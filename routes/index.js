@@ -11,6 +11,7 @@ router.get('/', async (req, res, next) => {
         console.log("현재 session nick:", req.session.nick);
         if (!req.session.nick) {
             res.render('join');
+            console.log("join render complete");
         }
         else {
             res.render('chat', {
