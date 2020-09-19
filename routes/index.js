@@ -7,8 +7,6 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
     try {
         const chats = await Chat.findAll();
-        console.log("get router 작동완료 이 밑에는 render");
-        console.log("현재 session nick:", req.session.nick);
         if (!req.session.nick) {
             res.render('join');
         }
@@ -28,12 +26,7 @@ router.get('/', async (req, res, next) => {
 router.post('/nick', (req, res, next) => {
     try {
         req.session.nick = req.body.nick;
-        console.log("req.session!!!!: ", req.session);
-        console.log("req.body.nick", req.body.nick);
-        console.log("/nick router 작동 완료!!!!");
         res.send('ok');
-        // 여기서 res.redirect('/'); 하면
-        // ajax로 post요청시 url변경이 금지 되어있어 안될수도 있음
     } catch (error) {
         console.error(error);
         next(error);
@@ -46,7 +39,6 @@ router.post('/chat', async (req, res, next) => {
             user: req.session.nick,
             chat: req.body.chat,
         });
-        console.log("setted session nick:", req.session.nick);
         req.app.get('io').emit('chat', chat);
         res.send('ok');
     } catch (error) {

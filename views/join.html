@@ -10,7 +10,6 @@
     axios.post('/nick', {
         nick: text
     }).then(() => {
-        console.log("succeed to get nick!");
         window.location.href = '/';
     }).catch((error) => {
         console.error(error);
