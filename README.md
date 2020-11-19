@@ -25,6 +25,6 @@ ex) const my_ip = http://localhost:80";
 
 then, you can run this app by typing "npm run dev" for develop mode or "npm start" for production mode.
 
-If you just want to experience it, you can do in http://35.225.236.149
+If you just want to experience it, you can do in http://34.72.181.116/
 
 thank u for reading :)
